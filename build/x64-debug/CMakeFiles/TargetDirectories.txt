@@ -1,3 +1,0 @@
-E:/Projects/Visual Studio/PageScraper/build/x64-debug/CMakeFiles/PageScraper.dir
-E:/Projects/Visual Studio/PageScraper/build/x64-debug/CMakeFiles/edit_cache.dir
-E:/Projects/Visual Studio/PageScraper/build/x64-debug/CMakeFiles/rebuild_cache.dir
