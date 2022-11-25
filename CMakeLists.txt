@@ -1,19 +1,28 @@
-﻿# CMakeList.txt: проект CMake для PageScraper; включите исходный код и определения,
-# укажите здесь логику для конкретного проекта.
-#
-cmake_minimum_required (VERSION 3.8)
+﻿cmake_minimum_required (VERSION 3.8)
 
 project ("PageScraper")
 
-include_directories(
-	"include"
+find_package(CURL REQUIRED)
+
+include_directories("include")
+
+set(PROJECT_INCLUDE
+	"include/pagescraper.hpp"
+)
+set(PROJECT_SOURCE
+	"src/pagescraper.cpp"
 )
 
-# Добавьте источник в исполняемый файл этого проекта.
-add_executable (PageScraper "PageScraper.cpp" "PageScraper.h")
+add_executable (PageScraper  
+	src/main.cpp
+	${PROJECT_INCLUDE}
+	${PROJECT_SOURCE}
+)
+
+target_link_libraries(PageScraper PRIVATE
+	${CURL_LIBRARIES}
+)
 
 if (CMAKE_VERSION VERSION_GREATER 3.12)
-  set_property(TARGET PageScraper PROPERTY CXX_STANDARD 20)
+  set_property(TARGET PageScraper PROPERTY CXX_STANDARD 23)
 endif()
-
-# TODO: Добавьте тесты и целевые объекты, если это необходимо.
