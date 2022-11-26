@@ -4,7 +4,12 @@ int main(int   _argc,
          char *_p_argv[]) {
     setlocale(0, ".UTF8");   
 
-    PageScraper page { "https://yt3.ggpht.com/ytc/AMLnZu_62Edd2usbc2P47Cz76FVX71wiSGSeqOif0sF1Zw=s88-c-k-c0x00ffffff-no-rj", "png" };
+    if (_argc > 2) {
+        PageScraper page { _p_argv[1], _p_argv[2] };
+    }
+    else {
+        PageScraper page { _p_argv[1], "" };
+    }
 
     system("pause");
 }

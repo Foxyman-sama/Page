@@ -1,15 +1,33 @@
 #include "pagescraper.hpp"
 
+#include <string>
+
 PageScraper::PageScraper(const std::string &_url,
                          const std::string &_format) noexcept {
-    std::regex  regex { "src=\"(.+?[" + _format + "]?)\"" };
     std::string answer { };
-    auto        begin { std::sregex_iterator { answer.cbegin(), answer.cend(), regex } };
-    auto        end { std::sregex_iterator { } };
+
+    p_curl_ = curl_easy_init();
+    curl_easy_setopt(p_curl_, CURLOPT_URL, _url.c_str());
+    curl_easy_setopt(p_curl_, CURLOPT_WRITEFUNCTION, &PageScraper::saveAnswer);
+    curl_easy_setopt(p_curl_, CURLOPT_WRITEDATA, &answer);
+    curl_easy_perform(p_curl_);
+    curl_easy_cleanup(p_curl_);
+
+    std::regex           regex { initRegex(_format) };
+    std::sregex_iterator begin {  answer.cbegin(), answer.cend(), regex  };
+    std::sregex_iterator end  { };
 
     download(begin, end, _format);
 }
 
+size_t PageScraper::saveAnswer(char        *_data, 
+                               size_t       _size,
+                               size_t       _nmemb,
+                               std::string *_p_answer) noexcept {
+    _p_answer->append(_data, _size * _nmemb);
+
+    return _size * _nmemb;
+}
 size_t PageScraper::saveFile(char          *_data,
                              size_t         _size,
                              size_t         _nmemb,
@@ -19,19 +37,32 @@ size_t PageScraper::saveFile(char          *_data,
     return _size * _nmemb;
 }
 
+std::regex PageScraper::initRegex(const std::string &_format) noexcept {
+    if (_format.empty()) {
+        return std::regex { "<img.*?src=\"(.+?" + _format + ")\"" };
+    }
+    else {
+        return std::regex { "<img.*?src=\"(.+?)\"" };
+    }
+}
 
 void PageScraper::download(std::sregex_iterator  _begin, 
                            std::sregex_iterator  _end,
                            const std::string    &_format) noexcept {
-    size_t counter { };
-
     for (auto i { _begin }; i != _end; ++i) {
-        std::string url { "https:" + i->operator[](1).str(), std::ios_base::binary };
+        std::string url { i->operator[](1).str() };
+        std::string filename { url };
 
-        save_.open(std::to_string(++counter) + '.' + _format );
+        checkUrl(url);
+        editFilename(filename);
+
+        std::cout << url      << '\n';
+        std::cout << filename << '\n' << '\n';
+
+        save_.open(filename, std::ios_base::binary);
 
         p_curl_ = curl_easy_init();
-        curl_easy_setopt(p_curl_, CURLOPT_URL, url);
+        curl_easy_setopt(p_curl_, CURLOPT_URL, url.c_str());
         curl_easy_setopt(p_curl_, CURLOPT_WRITEFUNCTION, &PageScraper::saveFile);
         curl_easy_setopt(p_curl_, CURLOPT_WRITEDATA, &save_);
         curl_easy_perform(p_curl_);
@@ -39,4 +70,10 @@ void PageScraper::download(std::sregex_iterator  _begin,
 
         save_.close();
     }
+}
+void PageScraper::editFilename(std::string &_filename) noexcept {
+    _filename.erase(std::remove_if(_filename.begin(), _filename.end(), [&](char _ch) {
+        return _ch == '/' ||
+        _ch == ':';
+    }), _filename.end());
 }
