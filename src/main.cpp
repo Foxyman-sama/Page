@@ -8,15 +8,18 @@ int main(int   _argc,
     system("cd download");
     system("cls");
 
-    PageScraper page { "https://hard.rozetka.com.ua/ua/kingston_sa400s37_240g/p14606570/", "" };
+#ifndef RELEASE
+    PageScraper page { "https://hard.rozetka.com.ua/ua/kingston_sa400s37_240g/p14606570/" };
+#endif 
 
-    /*
+#ifdef RELEASE
     if (_argc > 2) {
         PageScraper page { _p_argv[1], _p_argv[2] };
     }
     else {
         PageScraper page { _p_argv[1], "" };
-    }*/
+    }
+#endif
 
     system("pause");
     system("cls");
