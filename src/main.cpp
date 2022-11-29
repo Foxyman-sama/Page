@@ -9,7 +9,7 @@ int main(int   _argc,
     system("cls");
 
 #ifndef RELEASE
-    PageScraper page { "https://hard.rozetka.com.ua/ua/kingston_sa400s37_240g/p14606570/" };
+    PageScraper page { "https://www.youtube.com/@news24tvua" };
 #endif 
 
 #ifdef RELEASE

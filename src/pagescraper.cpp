@@ -36,16 +36,15 @@ std::string PageScraper::initAnswer(const std::string &_url) noexcept{
     curl_easy_setopt(p_curl_, CURLOPT_WRITEFUNCTION, &PageScraper::saveAnswer);
     curl_easy_setopt(p_curl_, CURLOPT_WRITEDATA, &answer);
     curl_easy_perform(p_curl_);
-    curl_easy_cleanup(p_curl_);
 
     return answer;
 }
 std::regex  PageScraper::initRegex(const std::string &_format) noexcept {
     if (!_format.empty()) {
-        return std::regex { "(https|http)[^\"|^'|^;]+(" + _format + ")[^!-\/]?" };
+        return std::regex { "(https|http)[^\"|^'|^;]+(" + _format + ")[^!-\/^?]?" };
     }
     else {
-        return std::regex { "(https|http)[^\"|^'|^;]+(rj|jpg|png)[^!-\/]?" };
+        return std::regex { "(https|http)[^\"|^'|^;]+(rj|jpg|png)[^!-\/^?]?" };
     }
 }
 std::string PageScraper::createFilename(const std::string &_url) noexcept {
@@ -68,14 +67,17 @@ void PageScraper::download(std::sregex_iterator  _begin,
         ++count_;
     }
 
+    curl_easy_setopt(p_curl_, CURLOPT_WRITEFUNCTION, &PageScraper::saveFile);
+    curl_easy_setopt(p_curl_, CURLOPT_WRITEDATA, &save_);
+
     for (auto i { _begin }; i != _end; ++i) {
         system("cls");
 
         std::string url { i->str() };
         std::string filename { createFilename(url) };
 
-        output(url, filename);
         save(url, filename);
+        output(url, filename);
     }
 }
 void PageScraper::save(const std::string &_url,
@@ -87,14 +89,15 @@ void PageScraper::save(const std::string &_url,
         return;
     }
 
-    save_.open("download/" + _filename, std::ios_base::binary);
+    if (_url.find("rj")) {
+        save_.open("download/" + _filename + ".png", std::ios_base::binary);
+    }
+    else {
+        save_.open("download/" + _filename, std::ios_base::binary);
+    }
 
-    p_curl_ = curl_easy_init();
     curl_easy_setopt(p_curl_, CURLOPT_URL, _url.c_str());
-    curl_easy_setopt(p_curl_, CURLOPT_WRITEFUNCTION, &PageScraper::saveFile);
-    curl_easy_setopt(p_curl_, CURLOPT_WRITEDATA, &save_);
     curl_easy_perform(p_curl_);
-    curl_easy_cleanup(p_curl_);
 
     save_.close();
 }

@@ -39,6 +39,9 @@ private:
 public:
     explicit PageScraper(const std::string &_url,
                          const std::string &_format = "") noexcept;
+    PageScraper() noexcept {
+        curl_easy_cleanup(p_curl_);
+    }
 };
 
 #endif 
