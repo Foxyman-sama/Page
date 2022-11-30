@@ -3,15 +3,20 @@
 
 #include <iostream>
 #include <fstream>
+#include <unordered_map>
 #include <regex>
 #include <thread>
 #include <curl/curl.h>
 
 class PageScraper {
 private:
+    using DownloadedMap = std::unordered_map<std::string, bool>;
+
+private:
     CURL          *p_curl_;
     std::ofstream  save_;
     size_t         count_;
+    DownloadedMap  map_;
 
 private:
     static size_t saveAnswer(char        *_p_data,
@@ -28,13 +33,17 @@ private:
     std::regex  initRegex(const std::string &_format) noexcept;
     std::string createFilename(const std::string &_url) noexcept;
 
-    void download(std::sregex_iterator  _begin,
-                  std::sregex_iterator  _end,
-                  const std::string    &_format) noexcept;
+    void download(std::sregex_iterator  &_begin,
+                  std::sregex_iterator  &_end,
+                  const std::string     &_format) noexcept;
     void save(const std::string &_url,
               const std::string &_filename) noexcept;
     void output(const std::string &_url,
                 const std::string &_filename) noexcept;
+    void open(const std::string &_filename) noexcept;
+    void close() noexcept {
+        save_.close();
+    }
 
 public:
     explicit PageScraper(const std::string &_url,

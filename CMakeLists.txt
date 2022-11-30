@@ -8,9 +8,11 @@ include_directories("include")
 
 set(PROJECT_INCLUDE
 	"include/pagescraper.hpp"
+	"include/test.hpp"
 )
 set(PROJECT_SOURCE
 	"src/pagescraper.cpp"
+	"src/test.cpp"
 )
 
 add_executable (PageScraper  

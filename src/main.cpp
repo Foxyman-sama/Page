@@ -1,4 +1,5 @@
 #include "pagescraper.hpp"
+#include "test.hpp"
 
 int main(int   _argc,
          char *_p_argv[]) {
@@ -9,7 +10,8 @@ int main(int   _argc,
     system("cls");
 
 #ifndef RELEASE
-    PageScraper page { "https://www.youtube.com/@news24tvua" };
+    test();
+    test2();
 #endif 
 
 #ifdef RELEASE
