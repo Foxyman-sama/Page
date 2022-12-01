@@ -2,9 +2,10 @@
 #define TEST_HPP
 
 #include <iostream>
-
+#include <chrono>
 #include "pagescraper.hpp"
 
+constexpr std::string_view DIRECTORY { "test" };
 constexpr std::string_view URLS[] {
     "https://www.youtube.com/",
     "https://www.youtube.com/@poseidonskiy240",
@@ -22,5 +23,6 @@ constexpr std::string_view FORMATS[] {
 
 bool test() noexcept;
 bool test2() noexcept;
+void getElapsedTime() noexcept;
 
 #endif 
