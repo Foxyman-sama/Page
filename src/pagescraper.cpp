@@ -5,12 +5,26 @@ PageScraper::PageScraper(const std::string &_url,
                          const std::string &_format) noexcept :
     directory_ { _directory },
     count_ { } {
-    std::string          answer { initAnswer(_url) };
-    std::regex           regex { initRegex(_format) };
-    std::sregex_iterator begin {  answer.cbegin(), answer.cend(), regex  };
-    std::sregex_iterator end  { };
+    std::regex  folder { "\/\/([^\/]+)" };
+    std::cmatch result { };
 
-    download(begin, end);
+    std::regex_search(_url.c_str(), result, folder);
+
+    if (!result.size()) {
+        std::cerr << "Bad URL. Try again." << '\n';
+    }
+    else {
+        directory_ = directory_ + '/' + result[1].str();
+
+        system(std::string { "mkdir \"" + directory_ + "\"" }.c_str());
+
+        std::string          answer { initAnswer(_url) };
+        std::regex           regex { initRegex(_format) };
+        std::sregex_iterator begin { answer.cbegin(), answer.cend(), regex };
+        std::sregex_iterator end { };
+
+        download(begin, end);
+    }
 }
 
 std::string PageScraper::initAnswer(const std::string &_url) noexcept{
@@ -38,24 +52,16 @@ void PageScraper::download(const std::sregex_iterator &_begin,
                            const std::sregex_iterator &_end) noexcept {
     for (auto i { _begin }; i != _end; ++i, ++count_);
 
-    std::vector<std::string> temp { };
-
     curl_easy_setopt(p_curl_, CURLOPT_WRITEFUNCTION, saveFile);
     curl_easy_setopt(p_curl_, CURLOPT_WRITEDATA, &save_);
 
     for (auto i { _begin }; i != _end; ++i) {
         system("cls");
 
-        temp.emplace_back(i->str());
-
         current_file_ = i->str();
 
         save();
         output();
-    }
-
-    for (auto &&el : temp) {
-        std::cout << el << '\n';
     }
 }
 void PageScraper::save() noexcept {
