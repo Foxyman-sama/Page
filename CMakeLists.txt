@@ -7,12 +7,12 @@ find_package(CURL REQUIRED)
 include_directories("include")
 
 set(PROJECT_INCLUDE
-	"include/pagescraper.hpp"
-	"include/test.hpp"
+	"include/connector.hpp"
+	"include/parser.hpp"
 )
 set(PROJECT_SOURCE
-	"src/pagescraper.cpp"
-	"src/test.cpp"
+	"src/connector.cpp"
+	"src/parser.cpp"
 )
 
 add_executable (PageScraper  

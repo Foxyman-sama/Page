@@ -1,28 +1,30 @@
-#include "pagescraper.hpp"
-#include "test.hpp"
+#include "connector.hpp"
+#include "parser.hpp"
 
 int main(int   _argc,
          char *_p_argv[]) {
     setlocale(0, ".UTF8");   
 
-    system("mkdir download");
-    system("cd download");
-    system("cls");
+    Connector connector { };
 
-#ifndef RELEASE
-    test();
-    test2();
-#endif 
+    if (!connector.connect("https://www.youtube.com/")) {
+        std::cerr << "Get answer problem. Try in another time.\n";
 
-#ifdef RELEASE
-    if (_argc > 2) {
-        PageScraper page { _p_argv[1], _p_argv[2] };
+        system("pause");
+
+        return -1;
     }
-    else {
-        PageScraper page { _p_argv[1], "" };
+
+    Parser parser { std::regex { "(https|http)[^\"]+(\.png|\.jpg|-rj)[^\"|^?]*" } };
+
+    if (!parser.parse(connector.getAnswer(), ".png")) {
+        std::cerr << "Get parser problem. Try in another time.\n";
+
+        system("pause");
+
+        return -2;
     }
-#endif
+
 
     system("pause");
-    system("cls");
 }
