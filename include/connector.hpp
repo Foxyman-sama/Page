@@ -16,6 +16,13 @@ private:
                           std::string *_p_answer) noexcept;
 
 public:   
+    Connector() noexcept {
+        p_curl_ = curl_easy_init();
+    }
+    ~Connector() noexcept {
+        curl_easy_cleanup(p_curl_);
+    }
+
     const auto &getAnswer() const noexcept {
         return answer_;
     }

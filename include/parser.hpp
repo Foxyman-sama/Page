@@ -4,22 +4,9 @@
 #include <iostream>
 #include <vector>
 #include <regex>
-
-struct ParsedResult {
-public:
-    std::string url_;
-    std::string format_;
-
-public:
-    bool operator==(const ParsedResult &_parsed) const noexcept {
-        return url_ == _parsed.url_;
-    }
-};
+#include "parsedresult.hpp"
 
 class Parser {
-private:
-    using ParsedVector = std::vector<ParsedResult>;
-
 private:
     std::regex   regular_;
     ParsedVector parsed_;

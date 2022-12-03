@@ -7,15 +7,25 @@ find_package(CURL REQUIRED)
 include_directories("include")
 
 set(PROJECT_INCLUDE
+	"include/test.hpp"
 	"include/connector.hpp"
 	"include/parser.hpp"
+	"include/parsedresult.hpp"
+	"include/formater.hpp"
+	"include/downloader.hpp"
+	"include/saver.hpp"
 )
 set(PROJECT_SOURCE
+	"src/test.cpp" 
 	"src/connector.cpp"
 	"src/parser.cpp"
+	"src/parsedresult.cpp"
+	"src/formater.cpp"
+	"src/downloader.cpp"
+	"src/saver.cpp"
 )
 
-add_executable (PageScraper  
+add_executable(PageScraper  
 	src/main.cpp
 	${PROJECT_INCLUDE}
 	${PROJECT_SOURCE}
