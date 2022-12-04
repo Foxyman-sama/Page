@@ -11,7 +11,7 @@ std::string Formater::createName(const std::string &_name) noexcept {
                _ch == '&';
     });
 
-    if (temp.find("rj")) {
+    if (temp.find("rj") != std::string::npos) {
         temp = temp + ".png";
     }
 
