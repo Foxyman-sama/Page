@@ -1,7 +1,6 @@
 #include "parser.hpp"
 
-bool Parser::parse(const std::string &_answer, 
-                   const std::string &_formats) noexcept {
+bool Parser::parse(const std::string &_answer) noexcept {
     std::sregex_iterator begin { _answer.cbegin(), _answer.cend(), regular_ };
     std::sregex_iterator end { };
 

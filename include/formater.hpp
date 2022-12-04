@@ -8,7 +8,12 @@ private:
     ParsedVector parsed_;
 
 private:
+    std::string createName(const std::string &_name) noexcept;
+
     void format() noexcept;
+    void replace(std::string       &_string,
+                 const std::string  _current,
+                 const std::string  _new) noexcept;
 
 public:
     explicit Formater(const ParsedVector &_parsed) noexcept :
@@ -16,7 +21,7 @@ public:
         format();
     }
 
-    auto &getFormated() const noexcept {
+    ParsedVector &getFormated() noexcept {
         return parsed_;
     }
 };

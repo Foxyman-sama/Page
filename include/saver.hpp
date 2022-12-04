@@ -5,18 +5,18 @@
 
 class Saver {
 private:
-    std::ofstream save_;
+    std::ofstream saver_;
 
 public:
     explicit Saver(const std::string &_name) noexcept {
-        save_.open(_name, std::ios_base::binary);
+        saver_.open("download/" + _name, std::ios_base::binary);
     }
     ~Saver() noexcept {
-        save_.close();
+        saver_.close();
     }
 
-    std::ofstream &getSave() noexcept {
-        return save_;
+    std::ofstream &getSaver() noexcept {
+        return saver_;
     }
 
 };

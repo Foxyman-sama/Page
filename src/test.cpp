@@ -42,9 +42,6 @@ void test2() noexcept {
         { std::regex { "https://www.youtube.com/" }, true },
         { std::regex { "https://www.youtube.com/" }, true }
     };
-    std::vector<std::string> formats {
-        ".png", ".jpg", "-rj", "fds", "HELLO"
-    };
 
     Time time { };
 
@@ -58,7 +55,7 @@ void test2() noexcept {
             return;
         }
 
-        if (parser.parse(connector.getAnswer(), formats[i]) != regexs[i].normal_) {
+        if (parser.parse(connector.getAnswer()) != regexs[i].normal_) {
             std::cerr << "Test 2 failed.\n";
 
             return;

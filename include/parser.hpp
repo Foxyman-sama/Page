@@ -23,8 +23,7 @@ public:
     auto &getParsed() const noexcept {
         return parsed_;
     }
-    bool  parse(const std::string &_answer,
-                const std::string &_formats) noexcept;
+    bool  parse(const std::string &_answer) noexcept;
 };
 
 #endif 

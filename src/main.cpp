@@ -2,14 +2,18 @@
 #include "parser.hpp"
 #include "formater.hpp"
 #include "downloader.hpp"
+#include "output.hpp"
+#include "checker.hpp"
 
 int main(int   _argc,
          char *_p_argv[]) {
     setlocale(0, ".UTF8");   
 
+    system("mkdir download");
+
     Connector connector { };
 
-    if (!connector.connect("https://www.youtube.com/")) {
+    if (!connector.connect("https://habr.com/ru/company/jugru/blog/506104/")) {
         std::cerr << "Get answer problem. Try in another time.\n";
 
         system("pause");
@@ -19,7 +23,7 @@ int main(int   _argc,
 
     Parser parser { std::regex { "(https|http)[^\"]+(.png|.jpg|-rj)[^\"|^?]*" } };
 
-    if (!parser.parse(connector.getAnswer(), ".png")) {
+    if (!parser.parse(connector.getAnswer())) {
         std::cerr << "Get parser problem. Try in another time.\n";
 
         system("pause");
@@ -27,24 +31,20 @@ int main(int   _argc,
         return -2;
     }
 
-    Formater    formater { parser.getParsed() };
-    Downloader  downloader { };
-    auto       &formated { formater.getFormated() };
-    size_t      size { formated.size() };
-    size_t      new_pos { };
+    Formater   formater { parser.getParsed() };
+    auto       formated_vector { formater.getFormated() };
+    Checker    checker { "download" };
+    Downloader downloader { };
 
-    for (auto &&el : formated) {
-        system("cls");
+    checker.check(formated_vector);
 
-        for (size_t i { new_pos }; i < size; ++i) {
-            std::cout << formated[i].url_ << '\n';
-        }
+    for (auto &&el : formated_vector) {
+        Output output { formated_vector };
 
         downloader.download(el);
-
-        ++new_pos;
     }
 
+    system("pause");
     system("cls");
     system("pause");
 }

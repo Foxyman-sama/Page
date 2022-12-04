@@ -14,6 +14,8 @@ set(PROJECT_INCLUDE
 	"include/formater.hpp"
 	"include/downloader.hpp"
 	"include/saver.hpp"
+	"include/output.hpp"
+	"include/checker.hpp"
 )
 set(PROJECT_SOURCE
 	"src/test.cpp" 
@@ -23,6 +25,8 @@ set(PROJECT_SOURCE
 	"src/formater.cpp"
 	"src/downloader.cpp"
 	"src/saver.cpp"
+	"src/output.cpp"
+	"src/checker.cpp"
 )
 
 add_executable(PageScraper  
