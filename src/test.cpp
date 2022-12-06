@@ -1,111 +1,79 @@
 #include "test.hpp"
-
+void testConfiguration() noexcept { 
+    initVector<std::string>(urls, "test/urls.txt");
+    initVector<std::regex>(regexs, "test/regexs.txt");
+    initVector<std::string>(expecteds, "test/urls.txt");
+    initVector<std::string>(images, "test/images.txt");
+}
 void test1() noexcept {
     std::cout << "Test 1: ";
-
-    std::vector<std::pair<std::string, bool>> urls {
-        { "https://habr.com/ru/company/jugru/blog/506104/", true },
-        { "https://www.youtube.com/", true },
-        { "https://regex101.com/", true },
-        { "https://en.cppreference.com/w/", true },
-        { "httssssss//", false },
-        { "NICEWORLd", false },
-        { "https://stackoverflow.com/questions/43806302/constructing-class-from-variadic-templates", true }
-    };
 
     for (size_t i { }; i < urls.size(); ++i) {
         Connector connector { };
 
-        if (connector.connect(urls[i].first) != urls[i].second) {
-            std::cout << "Test 1 failed.\n\n";
-
-            return;
-        }
+        ElapsedTime time { "Test 1 [connect]" };
+        assert(connector.connect(urls[i]) == true);
     }
 
-    std::cout << "Test 1 accepted.\n\n";
+    std::cout << "Test 1 OK.\n\n";
 }
 void test2() noexcept { 
     std::cout << "Test 2: ";
 
-    std::vector<std::pair<std::string, bool>> urls {
-        { "https://habr.com/ru/company/jugru/blog/506104/", true },
-        { "https://www.youtube.com/", true },
-        { "https://regex101.com/", true },
-        { "https://en.cppreference.com/w/", true },
-        { "httssssss//", false },
-        { "NICEWORLd", false },
-        { "https://stackoverflow.com/questions/43806302/constructing-class-from-variadic-templates", true }
-    };
-    std::vector<std::pair<std::regex, bool>> regexs {
-        { std::regex { "(https|http)[^\"]+(.png|.jpg|-rj)[^\"|^?]*" }, true },
-        { std::regex { "hssttp" }, false },
-        { std::regex { "(https|http)" }, true },
-        { std::regex { "png" }, true },
-        { std::regex { "[^^^^^^]//" }, false },
-        { std::regex { "NICEWORLd" }, false },
-        { std::regex { ".{10}" }, true }
-    };
-
     for (size_t i { }; i < urls.size(); ++i) {
         Connector connector { };
+        Parser    parser { regexs[i] };
 
-        if (connector.connect(urls[i].first) != urls[i].second) {
-            std::cout << "Test 2 failed.\n\n";
-
-            return;
+        {
+            ElapsedTime time { "Test 2 [connect]" };
+            assert(connector.connect(urls[i]) == true);
         }
-
-        Parser parser { regexs[i].first };
-
-        if (parser.parse(connector.getAnswer()) != regexs[i].second) {
-            std::cout << "Test 2 failed.\n\n";
-
-            return;
+        {
+            ElapsedTime time { "Test 2 [parse]" };
+            assert(parser.parse(connector.getAnswer()) == true);
         }
     }
 
-    std::cout << "Test 2 accepted.\n\n";
+    std::cout << "Test 2 OK.\n\n";
 }
 void test3() noexcept { 
     std::cout << "Test 3: ";
 
-    std::vector<std::string> expected { 
-        "httpsen.cppreference.comw",
-        "httpswww.youtube.com" ,
-        "httpsregex101.com",
-        "..................com" ,
-        "hello.com"
-    };
-    ParsedVector vector { 
-        ParsedResult { "https://en.cppreference.com/w/", "" },
-        ParsedResult { "https://www.youtube.com/", "" },
-        ParsedResult { "https://regex101.com/", "" },
-        ParsedResult { ".................://.com/", "" },
-        ParsedResult { "hello////////.com", "" }
-    };
+    ParsedVector temp_vector { };
 
-    Formater  formater { vector };
+    for (size_t i { }; i < urls.size(); ++i) {
+        temp_vector.emplace_back(urls[i], "");
+    }
+
+    Formater  formater { temp_vector };
     auto     &formated { formater.getFormated() };
 
     for (size_t i { }; i < formated.size(); ++i) {
-        if (formated[i].format_ != expected[i]) {
-            std::cout << "Test 3 failed.\n\n";
-
-            return;
-        }
+        assert(formated[i].format_ == expecteds[i]);
     }
 
-
-    std::cout << "Test 3 accepted.\n\n";
+    std::cout << "Test 3 OK.\n\n";
 }
 void test4() noexcept {
     std::cout << "Test 4: ";
 
-    std::cout << "Test 4 accepted.\n\n";
+    ParsedVector temp_vector { };
+
+    for (size_t i { }; i < images.size(); ++i) {
+        temp_vector.emplace_back(images[i], "");
+    }
+
+    Downloader downloader { };
+
+    for (size_t i { }; i < temp_vector.size(); ++i) {
+        ElapsedTime time { "Test 4 [download]" };
+        assert(downloader.download(temp_vector[i]) == true);
+    }
+
+    std::cout << "Test 4 OK.\n\n";
 }
 void test5() noexcept { 
     std::cout << "Test 5: ";
 
-    std::cout << "Test 5 accepted.\n\n";
+    std::cout << "Test 5 OK.\n\n";
 }

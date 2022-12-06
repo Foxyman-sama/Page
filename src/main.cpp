@@ -86,8 +86,9 @@ int main(int   _argc,
 int main() {
     setlocale(0, ".UTF8");
 
-    //test1();
-    //test2();
+    testConfiguration();
+    test1();
+    test2();
     test3();
     test4();
     test5();
