@@ -10,6 +10,10 @@
 #include "parser.hpp"
 #include "formater.hpp"
 #include "downloader.hpp"
+#include "checker.hpp"
+#include "output.hpp"
+
+constexpr size_t MAX_TRY_COUNT { 5 };
 
 struct ElapsedTime {
 private:
@@ -42,6 +46,8 @@ static void initVector(std::vector<T>    &_vector,
     std::string   temp { };
 
     fin.open(_filename);
+
+    assert(fin.is_open() == true);
 
     while (std::getline(fin, temp)) {
         _vector.emplace_back(T {temp});

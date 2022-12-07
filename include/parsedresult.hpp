@@ -13,6 +13,9 @@ public:
     bool operator==(const ParsedResult &_parsed) const noexcept {
         return url_ == _parsed.url_;
     }
+    bool operator<(const ParsedResult &_parsed) const noexcept {
+        return url_ < _parsed.url_;
+    }
 };
 
 using ParsedVector = std::vector<ParsedResult>;

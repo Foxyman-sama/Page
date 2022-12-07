@@ -16,6 +16,7 @@ set(PROJECT_INCLUDE
 	"include/saver.hpp"
 	"include/output.hpp"
 	"include/checker.hpp"
+	"include/indexer.hpp"
 )
 set(PROJECT_SOURCE
 	"src/test.cpp" 
@@ -27,6 +28,7 @@ set(PROJECT_SOURCE
 	"src/saver.cpp"
 	"src/output.cpp"
 	"src/checker.cpp"
+	"src/indexer.cpp"
 )
 
 add_executable(PageScraper  

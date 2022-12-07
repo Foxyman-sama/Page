@@ -1,4 +1,4 @@
-#define TESTMODE
+#define TESTMODE1
 
 #ifndef TESTMODE
 
@@ -8,44 +8,79 @@
 #include "downloader.hpp"
 #include "output.hpp"
 #include "checker.hpp"
+#include "indexer.hpp"
 
 constexpr size_t MAX_TRY_COUNT { 5 };
 
+void scraping(const std::string &_url,
+              const std::string &_formats) noexcept;
+
 int main(int   _argc,
          char *_p_argv[]) {
-    setlocale(0, ".UTF8");   
+    setlocale(0, "");   
 
+    std::string url { };
+    std::string formats { };
+
+    if (_argc == 3) {
+        url     = _p_argv[1];
+        formats = _p_argv[2];
+    }
+    else if (_argc == 2) {
+        url     = _p_argv[1];
+        formats = ".png|.jpg|-rj";
+    }
+    else {
+        std::cout << "¬ведите сайт:    ";
+        std::getline(std::cin, url);
+
+        std::cout << "¬ведите форматы: ";
+        std::getline(std::cin, formats);
+    }
+
+    scraping(url, formats);
+
+    system("pause");
+}
+
+void scraping(const std::string &_url, 
+              const std::string &_formats) noexcept {
     system("mkdir download");
+    system("cls");
 
     Connector connector { };
 
-    if (!connector.connect("https://habr.com/ru/company/jugru/blog/506104/")) {
+    if (!connector.connect(_url)) {
         std::cerr << "Get answer problem. Try in another time.\n";
 
         system("pause");
 
-        return -1;
+        return;
     }
 
-    Parser parser { std::regex { "(https|http)[^\"]+(.png|.jpg|-rj)[^\"|^?]*" } };
+    Parser parser { std::regex { "(https|http)[^\"]+(" + _formats + ")[^\"|^?]*" } };
 
     if (!parser.parse(connector.getAnswer())) {
         std::cerr << "Get parser problem. Try in another time.\n";
 
         system("pause");
 
-        return -2;
+        return;
     }
 
     Formater   formater { parser.getParsed() };
     auto       formated_vector { formater.getFormated() };
-    Checker    checker { "download" };
     Downloader downloader { };
+    Checker    checker { "download" };
 
     checker.check(formated_vector);
 
+    Indexer indexer { "download/index.txt", formated_vector.size() };
+
     for (auto &&el : formated_vector) {
         Output output { formated_vector };
+
+        indexer.indexing(el.format_);
 
         if (!downloader.download(el)) {
             size_t try_count { };
@@ -66,7 +101,7 @@ int main(int   _argc,
 
                     system("pause");
 
-                    return -3;
+                    return;
                 }
             }
         }
@@ -74,9 +109,7 @@ int main(int   _argc,
 
     system("pause");
     system("cls");
-    system("pause");
 }
-
 #endif
 
 #ifdef TESTMODE
@@ -97,3 +130,4 @@ int main() {
 }
 
 #endif
+

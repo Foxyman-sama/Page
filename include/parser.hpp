@@ -13,6 +13,7 @@ private:
 
 private:
     void deleteCopy() noexcept {
+        std::sort(parsed_.begin(), parsed_.end());
         parsed_.erase(std::unique(parsed_.begin(), parsed_.end()), parsed_.end());
     }
 

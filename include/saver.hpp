@@ -4,12 +4,12 @@
 #include <fstream>
 
 class Saver {
-private:
+protected:
     std::ofstream saver_;
 
 public:
     explicit Saver(const std::string &_name) noexcept {
-        saver_.open("download/" + _name, std::ios_base::binary);
+        saver_.open(_name, std::ios_base::binary);
     }
     ~Saver() noexcept {
         saver_.close();
