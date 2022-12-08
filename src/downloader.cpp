@@ -10,7 +10,7 @@ size_t Downloader::getFile(char			 *_p_data,
 }
 
 bool Downloader::download(const ParsedResult &_parsed) noexcept {
-    Saver saver { "download/" + _parsed.format_ } ;
+    Saver saver { "download\\" + _parsed.format_ } ;
 
     curl_easy_setopt(p_curl_, CURLOPT_URL, _parsed.url_.c_str());
     curl_easy_setopt(p_curl_, CURLOPT_FOLLOWLOCATION, true);

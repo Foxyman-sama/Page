@@ -5,7 +5,7 @@
 #include "parsedresult.hpp"
 
 class Checker {
-private:
+protected:
     std::ifstream checker_;
     std::string   folder_;
 

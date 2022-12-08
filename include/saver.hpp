@@ -7,6 +7,9 @@ class Saver {
 protected:
     std::ofstream saver_;
 
+protected:
+    virtual void save(const std::string &_text) noexcept;
+
 public:
     explicit Saver(const std::string &_name) noexcept {
         saver_.open(_name, std::ios_base::binary);

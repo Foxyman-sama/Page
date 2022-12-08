@@ -3,7 +3,7 @@
 
 #include "saver.hpp"
 
-class Indexer : public Saver {
+class Indexer final : public Saver  {
 public:
     explicit Indexer(const std::string &_name,
                      size_t             _size) noexcept :
@@ -11,7 +11,7 @@ public:
         saver_ << "Размер: " << _size << '\n';
     }
 
-    void indexing(const std::string &_text) noexcept;
+    virtual void save(const std::string &_text) noexcept override;
 };
 
 #endif 

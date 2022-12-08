@@ -17,6 +17,9 @@ set(PROJECT_INCLUDE
 	"include/output.hpp"
 	"include/checker.hpp"
 	"include/indexer.hpp"
+	"include/cacher.hpp"
+	"include/userfunctions.hpp"
+	"include/stringmanipulator.hpp"
 )
 set(PROJECT_SOURCE
 	"src/test.cpp" 
@@ -29,6 +32,9 @@ set(PROJECT_SOURCE
 	"src/output.cpp"
 	"src/checker.cpp"
 	"src/indexer.cpp"
+	"src/cacher.cpp"
+	"src/userfunctions.cpp"
+	"src/stringmanipulator.cpp"
 )
 
 add_executable(PageScraper  

@@ -1,7 +1,7 @@
 #ifndef PARSEDRESULT_HPP
 #define PARSEDRESULT_HPP
 
-#include <iostream>
+#include <string>
 #include <vector>
 
 struct ParsedResult {
