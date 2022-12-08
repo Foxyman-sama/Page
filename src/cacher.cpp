@@ -7,13 +7,26 @@ Cacher::Cacher(const std::string &_folder,
     file_ = _folder + '\\' + _file + ".txt";
 }
 
+bool         Cacher::isCached() noexcept {  
+    reader_.open(file_);
+
+    bool is_open { reader_.is_open() };
+
+    reader_.close();
+
+    return is_open;
+}
 ParsedVector Cacher::read() noexcept {
     ParsedVector parsed { };
     std::string  url { };
     std::string  format { };
 
-    while (reader_ >> url >> format) {
-        parsed.emplace_back(url, format);
+    reader_.open(file_);
+
+    assert(reader_.is_open() == true);
+
+    while (std::getline(reader_, url)) {
+        parsed.emplace_back(url, "");
 
         StringManipulator::deleteSymbols(parsed.back().format_);
     }
@@ -31,7 +44,13 @@ void Cacher::write(const ParsedVector &_parsed) noexcept {
     size_t size { _parsed.size() };
 
     for (size_t i { }; i < size; ++i) {
-        cache(_parsed[i].url_, _parsed[i].format_);
+        if (i == size - 1) {
+            cache(_parsed[i].url_);
+
+            break;
+        }
+
+        cache(_parsed[i].url_ + '\n');
     }
 
     cacher_.close();

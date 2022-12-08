@@ -15,7 +15,9 @@ void Formater::format(ParsedVector &_parsed) noexcept {
         }
     }
     for (size_t i { }; i < size; ++i) {
-        StringManipulator::deleteSymbols(_parsed[i].url_);     
+        _parsed[i].format_ = _parsed[i].url_;
+
+        StringManipulator::deleteSymbols(_parsed[i].format_);     
         
         if (_parsed[i].url_.find("rj") != std::string::npos) {
             _parsed[i].format_.append(".png");

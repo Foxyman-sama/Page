@@ -3,6 +3,8 @@
 
 #include <iostream>
 #include <fstream>
+#include <cassert>
+#include <vector>
 #include "parsedresult.hpp"
 #include "stringmanipulator.hpp"
 
@@ -16,17 +18,12 @@ public:
     Cacher(const std::string &_folder,
            std::string       &_file) noexcept;
 
-    bool         isCached() noexcept {
-        reader_.open(file_);
-
-        return reader_.is_open();
-    }
+    bool         isCached() noexcept;
     ParsedVector read() noexcept;
 
     void write(const ParsedVector &_parsed) noexcept;
-    void cache(const std::string &_url,
-               const std::string &_format) noexcept {
-        cacher_ << _url << ' ' << _format << '\n';
+    void cache(const std::string &_url) noexcept {
+        cacher_ << _url;
     }
 };
 
