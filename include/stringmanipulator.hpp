@@ -4,12 +4,11 @@
 #include <string>
 #include <vector>
 
-#define DEFAULT { ':', '\\', '/', '?', '&' }
-
 class StringManipulator {
 public:
     static void deleteSymbols(std::string             &_str,
-                              const std::vector<char> &_symbols = DEFAULT) noexcept;
+                              const std::vector<char> &_symbols = { ':', '\\', '/', 
+                                                                    '?', '&' }) noexcept;
     static void replace(std::string       &_str, 
                         const std::string &_current,
                         const std::string &_new) noexcept;

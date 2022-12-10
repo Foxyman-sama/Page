@@ -5,17 +5,12 @@
 #include <vector>
 #include <regex>
 #include "parsedresult.hpp"
+#include "vectormanipulator.hpp"
 
 class Parser {
 private:
     std::regex   regular_;
     ParsedVector parsed_;
-
-private:
-    void deleteCopy() noexcept {
-        std::sort(parsed_.begin(), parsed_.end());
-        parsed_.erase(std::unique(parsed_.begin(), parsed_.end()), parsed_.end());
-    }
 
 public:
     explicit Parser(const std::regex &_regular) noexcept :

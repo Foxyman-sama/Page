@@ -11,6 +11,7 @@
 #include "checker.hpp"
 #include "indexer.hpp"
 #include "cacher.hpp"
+#include "prep.hpp"
 
 namespace user {
     constexpr size_t MAX_TRY_COUNT { 10 };
@@ -21,6 +22,7 @@ namespace user {
     bool tryDownload(Downloader         &_downloader,
                      const ParsedResult &_parsed);
 
+    void prepare(std::string &_answer) noexcept;
     void format(ParsedVector &_parsed) noexcept;
     void download(ParsedVector &_parsed) noexcept;
 }

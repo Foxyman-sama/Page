@@ -20,7 +20,7 @@ int main(int   _argc,
     }
     else if (_argc == 2) {
         url     = _p_argv[1];
-        formats = ".png|.jpg|-rj";
+        formats = ".png|.jpg|-rj|-mo|.ico";
     }
     else {
         std::cout << "¬ведите сайт:    ";
@@ -28,6 +28,10 @@ int main(int   _argc,
 
         std::cout << "¬ведите форматы: ";
         std::getline(std::cin, formats);
+
+        if (formats == "image") {
+            formats = ".png|.jpg|-rj|-mo|.ico";
+        }
     }
 
     scraping(url, formats);
@@ -46,6 +50,8 @@ void scraping(const std::string &_url,
 
     if (!cacher.isCached()) {
         std::string answer { user::connect(_url) };
+
+        user::prepare(answer);
 
         parsed = user::parse(answer, _formats);
 

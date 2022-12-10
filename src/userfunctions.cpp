@@ -10,7 +10,8 @@ namespace user {
     }
     ParsedVector parse(const std::string &_answer,
                        const std::string &_formats) {
-        Parser parser { std::regex { "(https|http)[^\"]+(" + _formats + ")[^\"|^?]*" } };
+        Parser parser { std::regex { "(\\W|^)((?:https?|//){1}[^\"]{10,300}(?:" + _formats
+                                                                                + "))(\\W|$)" } };
 
         assert(parser.parse(_answer) == true);
 
@@ -54,6 +55,9 @@ namespace user {
                 assert(tryDownload(downloader, el) == true);
             }
         }
+    }
+    void prepare(std::string &_answer) noexcept {
+        Prep::prepareString(_answer);
     }
     void format(ParsedVector &_parsed) noexcept {
         Formater::format(_parsed);

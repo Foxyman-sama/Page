@@ -20,6 +20,8 @@ set(PROJECT_INCLUDE
 	"include/cacher.hpp"
 	"include/userfunctions.hpp"
 	"include/stringmanipulator.hpp"
+	"include/vectormanipulator.hpp"
+	"include/prep.hpp"
 )
 set(PROJECT_SOURCE
 	"src/test.cpp" 
@@ -35,6 +37,8 @@ set(PROJECT_SOURCE
 	"src/cacher.cpp"
 	"src/userfunctions.cpp"
 	"src/stringmanipulator.cpp"
+	"src/vectormanipulator.cpp"
+	"src/prep.cpp"
 )
 
 add_executable(PageScraper  

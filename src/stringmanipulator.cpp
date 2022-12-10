@@ -16,7 +16,7 @@ void StringManipulator::replace(std::string       &_str,
                                 const std::string &_current,
                                 const std::string &_new) noexcept {
     while (true) {
-        auto pos { _str.find(_current) };
+        size_t pos { _str.find(_current) };
 
         if (pos == std::string::npos) {
             break;
