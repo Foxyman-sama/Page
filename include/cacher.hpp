@@ -15,8 +15,7 @@ private:
     std::string   file_;
 
 public:
-    Cacher(const std::string &_folder,
-           std::string       &_file) noexcept;
+    Cacher(const std::string &_file) noexcept;
 
     bool         isCached() noexcept;
     ParsedVector read() noexcept;

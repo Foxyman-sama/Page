@@ -1,10 +1,11 @@
 #include "cacher.hpp"
 
-Cacher::Cacher(const std::string &_folder, 
-               std::string       &_file) noexcept {
-    StringManipulator::deleteSymbols(_file);
+Cacher::Cacher(const std::string &_file) noexcept {
+    std::string temp { _file };
 
-    file_ = _folder + '\\' + _file + ".txt";
+    StringManipulator::deleteSymbols(temp);
+
+    file_ = "cache\\" + temp + ".txt";
 }
 
 bool         Cacher::isCached() noexcept {  
@@ -37,7 +38,7 @@ ParsedVector Cacher::read() noexcept {
 }
 
 void Cacher::write(const ParsedVector &_parsed) noexcept { 
-    system("mkdir cache");
+    system("if not exist cache mkdir cache");
 
     cacher_.open(file_);
 

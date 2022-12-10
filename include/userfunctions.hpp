@@ -1,7 +1,9 @@
 #ifndef USERFUNCTIONS_HPP
 #define USERFUNCTIONS_HPP
 
+#ifndef NDEBUG
 #include <cassert>
+#endif //  DEBUG
 
 #include "connector.hpp"
 #include "parser.hpp"

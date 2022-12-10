@@ -4,7 +4,11 @@ namespace user {
     std::string  connect(const std::string &_url) {
         Connector connector { };
 
+#ifdef NDEBUG
+        connector.connect(_url);
+#else
         assert(connector.connect(_url) == true);
+#endif
 
         return connector.getAnswer();
     }
@@ -13,7 +17,11 @@ namespace user {
         Parser parser { std::regex { "(\\W|^)((?:https?|//){1}[^\"]{10,300}(?:" + _formats
                                                                                 + "))(\\W|$)" } };
 
+#ifdef NDEBUG
+        parser.parse(_answer);
+#else
         assert(parser.parse(_answer) == true);
+#endif
 
         return parser.getParsed();
     }
@@ -52,7 +60,12 @@ namespace user {
             indexer.save(el.url_);
 
             if (!downloader.download(el)) {
+#ifdef NDEBUG
+                tryDownload(downloader, el);
+#else
                 assert(tryDownload(downloader, el) == true);
+#endif
+
             }
         }
     }

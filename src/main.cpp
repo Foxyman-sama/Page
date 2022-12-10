@@ -4,7 +4,9 @@
 
 #include "userfunctions.hpp"
 
-void scraping(const std::string &_url,
+constexpr std::string_view IMAGE_FORMATS { ".png|.jpg|-rj|-mo|.ico" };
+
+void scraping(std::string       &_url,
               const std::string &_formats) noexcept;
 
 int main(int   _argc,
@@ -20,7 +22,7 @@ int main(int   _argc,
     }
     else if (_argc == 2) {
         url     = _p_argv[1];
-        formats = ".png|.jpg|-rj|-mo|.ico";
+        formats = IMAGE_FORMATS;
     }
     else {
         std::cout << "¬ведите сайт:    ";
@@ -29,8 +31,8 @@ int main(int   _argc,
         std::cout << "¬ведите форматы: ";
         std::getline(std::cin, formats);
 
-        if (formats == "image") {
-            formats = ".png|.jpg|-rj|-mo|.ico";
+        if ((formats.empty()) || (formats == "image")) {
+            formats = IMAGE_FORMATS;
         }
     }
 
@@ -39,13 +41,12 @@ int main(int   _argc,
     system("pause");
 }
 
-void scraping(const std::string &_url, 
+void scraping(std::string       &_url, 
               const std::string &_formats) noexcept {
-    system("mkdir download");
+    system("if not exist download mkdir download");
     system("cls");
 
-    std::string  temp { _url };
-    Cacher       cacher { "cache", temp };
+    Cacher       cacher { _url };
     ParsedVector parsed { };
 
     if (!cacher.isCached()) {
