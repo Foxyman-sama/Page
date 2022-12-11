@@ -3,7 +3,7 @@
 
 #ifndef NDEBUG
 #include <cassert>
-#endif //  DEBUG
+#endif
 
 #include "connector.hpp"
 #include "parser.hpp"

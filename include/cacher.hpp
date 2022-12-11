@@ -2,28 +2,38 @@
 #define CACHER_HPP
 
 #include <iostream>
-#include <fstream>
 #include <cassert>
 #include <vector>
 #include "parsedresult.hpp"
 #include "stringmanipulator.hpp"
+#include "cachewriter.hpp"
+#include "cachereader.hpp"
 
 class Cacher {
 private:
-    std::ofstream cacher_;
-    std::ifstream reader_;
-    std::string   file_;
+    std::unique_ptr<CacheWriter> cwriter_;
+    std::unique_ptr<CacheReader> creader_;
 
 public:
-    Cacher(const std::string &_file) noexcept;
+    enum class OpenType {
+        ONWRITE,
+        ONREAD
+    };
 
-    bool         isCached() noexcept;
-    ParsedVector read() noexcept;
+public:
+    Cacher(const std::string &_filename,
+           OpenType           _type) noexcept;
 
-    void write(const ParsedVector &_parsed) noexcept;
-    void cache(const std::string &_url) noexcept {
-        cacher_ << _url;
+    bool isCached() noexcept {
+        if (creader_) {
+            return creader_->isOpen();
+        }
+
+        return false;
     }
+    
+    void read(ParsedVector &_parsed) noexcept;
+    void write(ParsedVector &_parsed) noexcept;
 };
 
 #endif 

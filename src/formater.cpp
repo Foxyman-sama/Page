@@ -2,15 +2,16 @@
 
 void Formater::format(ParsedVector &_parsed) noexcept {
     size_t                   size { _parsed.size() };
-    std::vector<std::string> bad_slashes {
+    std::vector<std::string> bsymbols {
         "\\u002F", "\\/", "\\\\/", "\\"
-    };
-    size_t                   bs_size { bad_slashes.size() };
+        // What kind symbols need delete
+    }; 
+    size_t                   bs_size { bsymbols.size() };
 
     for (size_t i { }; i < size; ++i) {
         for (size_t j { }; j < bs_size; ++j) {
-            if (_parsed[i].url_.find(bad_slashes[j])) {
-                StringManipulator::replace(_parsed[i].url_, bad_slashes[j], "/");
+            if (_parsed[i].url_.find(bsymbols[j])) {
+                StringManipulator::replace(_parsed[i].url_, bsymbols[j], "/");
             }
         }
 

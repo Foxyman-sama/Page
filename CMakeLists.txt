@@ -22,6 +22,10 @@ set(PROJECT_INCLUDE
 	"include/stringmanipulator.hpp"
 	"include/vectormanipulator.hpp"
 	"include/prep.hpp"
+	"include/ioutput.hpp"
+	"include/iinput.hpp"
+	"include/cachereader.hpp"
+	"include/cachewriter.hpp"
 )
 set(PROJECT_SOURCE
 	"src/test.cpp" 
@@ -39,6 +43,10 @@ set(PROJECT_SOURCE
 	"src/stringmanipulator.cpp"
 	"src/vectormanipulator.cpp"
 	"src/prep.cpp"
+	"src/ioutput.cpp"
+	"src/iinput.cpp"
+	"src/cachereader.cpp"
+	"src/cachewriter.cpp"
 )
 
 add_executable(PageScraper  

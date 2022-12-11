@@ -1,27 +1,23 @@
 #ifndef SAVER_HPP
 #define SAVER_HPP
 
-#include <fstream>
+#include "ioutput.hpp"
 
-class Saver {
-protected:
-    std::ofstream saver_;
-
-protected:
-    virtual void save(const std::string &_text) noexcept;
+class Saver final : public IOutput {
+public:
+    virtual bool write(const std::string &_data) noexcept override;
 
 public:
-    explicit Saver(const std::string &_name) noexcept {
-        saver_.open(_name, std::ios_base::binary);
+    explicit Saver(const std::string &_name) noexcept { 
+        fout_.open(_name, std::ios_base::binary);
     }
     ~Saver() noexcept {
-        saver_.close();
+        fout_.close();
     }
 
     std::ofstream &getSaver() noexcept {
-        return saver_;
+        return fout_;
     }
-
 };
 
 #endif 

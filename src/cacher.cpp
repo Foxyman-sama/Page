@@ -1,58 +1,32 @@
 #include "cacher.hpp"
 
-Cacher::Cacher(const std::string &_file) noexcept {
-    std::string temp { _file };
+Cacher::Cacher(const std::string &_filename,
+               OpenType           _type) noexcept  {
+    std::string temp { _filename };
 
     StringManipulator::deleteSymbols(temp);
 
-    file_ = "cache\\" + temp + ".txt";
-}
+    temp = "cache\\" + temp + ".txt";
 
-bool         Cacher::isCached() noexcept {  
-    reader_.open(file_);
-
-    bool is_open { reader_.is_open() };
-
-    reader_.close();
-
-    return is_open;
-}
-ParsedVector Cacher::read() noexcept {
-    ParsedVector parsed { };
-    std::string  url { };
-    std::string  format { };
-
-    reader_.open(file_);
-
-    assert(reader_.is_open() == true);
-
-    while (std::getline(reader_, url)) {
-        parsed.emplace_back(url, "");
-
-        StringManipulator::deleteSymbols(parsed.back().format_);
+    if (_type == OpenType::ONWRITE) {
+        cwriter_ = std::make_unique<CacheWriter>(temp);
     }
-
-    reader_.close();
-
-    return parsed;
+    else if (_type == OpenType::ONREAD) {
+        creader_ = std::make_unique<CacheReader>(temp);
+    }
 }
 
-void Cacher::write(const ParsedVector &_parsed) noexcept { 
-    system("if not exist cache mkdir cache");
+void Cacher::read(ParsedVector &_parsed) noexcept {
+    std::vector<std::string> temp { };
 
-    cacher_.open(file_);
+    creader_->read(temp);
 
-    size_t size { _parsed.size() };
-
-    for (size_t i { }; i < size; ++i) {
-        if (i == size - 1) {
-            cache(_parsed[i].url_);
-
-            break;
-        }
-
-        cache(_parsed[i].url_ + '\n');
+    for (size_t i { }; i < temp.size(); ++i) {
+        _parsed.emplace_back(temp[i], "");
     }
-
-    cacher_.close();
+}
+void Cacher::write(ParsedVector &_parsed) noexcept { 
+    for (size_t i { }; i < _parsed.size(); ++i) {
+        cwriter_->write(_parsed[i].url_);
+    }
 }

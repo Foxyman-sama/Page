@@ -1,17 +1,18 @@
 #ifndef INDEXER_HPP
 #define INDEXER_HPP
 
-#include "saver.hpp"
+#include "ioutput.hpp"
 
-class Indexer final : public Saver  {
+class Indexer final : public IOutput  {
+public:
+    virtual bool write(const std::string &_data) noexcept override;
+
 public:
     explicit Indexer(const std::string &_name,
-                     size_t             _size) noexcept :
-        Saver { _name } {
-        saver_ << "Размер: " << _size << '\n';
+                     size_t             _size) noexcept;
+    ~Indexer() noexcept {
+        fout_.close();
     }
-
-    virtual void save(const std::string &_text) noexcept override;
 };
 
 #endif 

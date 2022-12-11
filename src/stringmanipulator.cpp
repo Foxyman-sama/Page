@@ -12,6 +12,21 @@ void StringManipulator::deleteSymbols(std::string             &_str,
         return false;
     });
 }
+void StringManipulator::deleteRangeMatches(std::string       &_str, 
+                                           const std::string &_begin, 
+                                           const std::string &_end) noexcept {
+    while (true) {
+        size_t start_pos { _str.find(_begin) };
+        size_t end_pos { _str.find(_end) };
+
+        if ((start_pos == std::string::npos) ||
+            (end_pos == std::string::npos)) {
+            break;
+        }
+
+        _str.erase(start_pos, end_pos - start_pos + _end.size());
+    }
+}
 void StringManipulator::replace(std::string       &_str,
                                 const std::string &_current,
                                 const std::string &_new) noexcept {

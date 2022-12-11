@@ -16,7 +16,7 @@ namespace user {
                        const std::string &_formats) {
         Parser parser { std::regex { "(\\W|^)((?:https?|//){1}[^\"]{10,300}(?:" + _formats
                                                                                 + "))(\\W|$)" } };
-
+       
 #ifdef NDEBUG
         parser.parse(_answer);
 #else
@@ -57,7 +57,7 @@ namespace user {
         for (auto &&el : _parsed) {
             Output output { _parsed };
 
-            indexer.save(el.url_);
+            indexer.write(el.url_);
 
             if (!downloader.download(el)) {
 #ifdef NDEBUG
@@ -65,7 +65,6 @@ namespace user {
 #else
                 assert(tryDownload(downloader, el) == true);
 #endif
-
             }
         }
     }

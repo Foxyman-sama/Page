@@ -1,5 +1,11 @@
 #include "saver.hpp"
 
-void Saver::save(const std::string &_text) noexcept { 
-    saver_ << _text << '\n';
+bool Saver::write(const std::string &_data) noexcept {
+    fout_ << _data << '\n';
+
+    if ((fout_.bad()) || (fout_.fail())) {
+        return false;
+    }
+
+    return true;
 }
