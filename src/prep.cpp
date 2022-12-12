@@ -1,6 +1,6 @@
 #include "prep.hpp"
 
-void Prep::prepareString(std::string &_answer) noexcept {
+void Prep::prepareAnswer(std::string &_answer) noexcept {
     StringManipulator::deleteSymbols(_answer, { ' ', '\r', '\n', '\t' });
     StringManipulator::deleteRangeMatches(_answer, "<!", "</head>");
     StringManipulator::deleteRangeMatches(_answer, "<style>", "</style>");

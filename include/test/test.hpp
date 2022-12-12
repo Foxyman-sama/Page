@@ -11,7 +11,7 @@
 #include "formater.hpp"
 #include "downloader.hpp"
 #include "checker.hpp"
-#include "output.hpp"
+#include "print.hpp"
 
 constexpr size_t MAX_TRY_COUNT { 5 };
 

@@ -8,7 +8,7 @@ private:
     std::string filename_;
 
 public:
-    virtual bool write(const std::string &_data) noexcept override;
+    virtual bool write(const ParsedVector &_parsed) noexcept override;
 
 public:
     CacheWriter(const std::string &_filename) noexcept :

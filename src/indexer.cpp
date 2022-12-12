@@ -6,11 +6,23 @@ Indexer::Indexer(const std::string &_name,
     fout_ << "Размер: " << _size << '\n';                 
 }
 
-bool Indexer::write(const std::string &_data) noexcept {
-    fout_ << _data << '\n';
+bool Indexer::write(const ParsedVector &_parsed) noexcept {
+    size_t size { _parsed.size() };
 
-    if ((fout_.bad()) || (fout_.fail())) {
-        return false;
+    for (size_t i { }; i < size; ++i) {
+        fout_.width(5);
+        fout_ << i + 1 << ' ';
+
+        if (i == size - 1) {
+            fout_ << _parsed[i].url_;
+        }
+        else {
+            fout_ << _parsed[i].url_ << '\n';
+        }
+
+        if ((fout_.bad()) || (fout_.fail())) {
+            return false;
+        }
     }
 
     return true;

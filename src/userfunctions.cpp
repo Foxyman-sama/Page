@@ -53,11 +53,10 @@ namespace user {
     void download(ParsedVector &_parsed) noexcept {
         Downloader downloader { };
         Indexer    indexer { "download/index.txt", _parsed.size() };
+        indexer.write(_parsed);
 
         for (auto &&el : _parsed) {
-            Output output { _parsed };
-
-            indexer.write(el.url_);
+            Print print { _parsed };
 
             if (!downloader.download(el)) {
 #ifdef NDEBUG
@@ -69,13 +68,13 @@ namespace user {
         }
     }
     void prepare(std::string &_answer) noexcept {
-        Prep::prepareString(_answer);
+        Prep::prepareAnswer(_answer);
     }
     void format(ParsedVector &_parsed) noexcept {
         Formater::format(_parsed);
 
-        Checker  checker { "download" };
+        Checker checker { "download" };
 
-        checker.check(_parsed);
+        checker.read(_parsed);
     }
 }

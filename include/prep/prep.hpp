@@ -5,7 +5,7 @@
 
 class Prep {
 public:
-    static void prepareString(std::string &_answer) noexcept;
+    static void prepareAnswer(std::string &_answer) noexcept;
 };
 
 #endif 

@@ -1,13 +1,19 @@
 #include "checker.hpp"
 
-void Checker::check(ParsedVector &_parsed) noexcept {
-    for (size_t i { }; i < _parsed.size(); ++i) {
-        checker_.open(folder_ + "/" + _parsed[i].format_);
+bool Checker::read(ParsedVector &_parsed) noexcept {
+    bool open { false };
 
-        if (checker_.is_open()) {
+    for (size_t i { }; i < _parsed.size(); ++i) {
+        fin_.open(folder_ + "\\" + _parsed[i].format_);
+
+        if (fin_.is_open()) {
+            open = true;
+
             _parsed.erase(_parsed.begin() + i--);
         }
 
-        checker_.close();
+        fin_.close();
     }
+
+    return open;
 }

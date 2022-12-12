@@ -19,7 +19,7 @@ bool Downloader::download(const ParsedResult &_parsed) noexcept {
                      "AppleWebKit/537.36 (KHTML, like Gecko) "
                      "Chrome/108.0.0.0 Safari/537.36");
     curl_easy_setopt(p_curl_, CURLOPT_WRITEFUNCTION, Downloader::getFile);
-    curl_easy_setopt(p_curl_, CURLOPT_WRITEDATA, &saver.getSaver());
+    curl_easy_setopt(p_curl_, CURLOPT_WRITEDATA, *saver);
 
     if (curl_easy_perform(p_curl_) != CURLE_OK) {
         return false;

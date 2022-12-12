@@ -9,7 +9,7 @@
 #include "parser.hpp"
 #include "formater.hpp"
 #include "downloader.hpp"
-#include "output.hpp"
+#include "print.hpp"
 #include "checker.hpp"
 #include "indexer.hpp"
 #include "cacher.hpp"

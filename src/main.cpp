@@ -46,19 +46,20 @@ void scraping(std::string       &_url,
     system("if not exist download mkdir download");
     system("cls");
 
-    Cacher       cacher { _url, Cacher::OpenType::ONREAD };
     ParsedVector parsed { };
 
-    if (!cacher.isCached()) {
+    if (Cacher::isCached(_url)) {
         std::string answer { user::connect(_url) };
 
         user::prepare(answer);
 
         parsed = user::parse(answer, _formats);
 
+        Cacher cacher { _url, Cacher::OpenType::ONWRITE };
         cacher.write(parsed);
     }
     else {
+        Cacher cacher { _url, Cacher::OpenType::ONREAD };
         cacher.read(parsed);
     }
 

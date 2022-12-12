@@ -16,17 +16,9 @@ Cacher::Cacher(const std::string &_filename,
     }
 }
 
-void Cacher::read(ParsedVector &_parsed) noexcept {
-    std::vector<std::string> temp { };
+bool Cacher::isCached(const std::string &_filename) noexcept {
+    std::string   temp{ "cache\\" + _filename + ".txt" };
+    std::ifstream fcheck { _filename };
 
-    creader_->read(temp);
-
-    for (size_t i { }; i < temp.size(); ++i) {
-        _parsed.emplace_back(temp[i], "");
-    }
-}
-void Cacher::write(ParsedVector &_parsed) noexcept { 
-    for (size_t i { }; i < _parsed.size(); ++i) {
-        cwriter_->write(_parsed[i].url_);
-    }
+    return fcheck.is_open();
 }

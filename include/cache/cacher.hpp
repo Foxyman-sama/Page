@@ -21,6 +21,9 @@ public:
     };
 
 public:
+    static bool isCached(const std::string &_filename) noexcept;
+
+public:
     Cacher(const std::string &_filename,
            OpenType           _type) noexcept;
 
@@ -31,9 +34,13 @@ public:
 
         return false;
     }
-    
-    void read(ParsedVector &_parsed) noexcept;
-    void write(ParsedVector &_parsed) noexcept;
+
+    void read(ParsedVector &_parsed) noexcept {
+        creader_->read(_parsed);
+    }
+    void write(const ParsedVector &_parsed) noexcept {
+        cwriter_->write(_parsed);
+    }
 };
 
 #endif 
