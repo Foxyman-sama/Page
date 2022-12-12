@@ -6,7 +6,9 @@ Cacher::Cacher(const std::string &_filename,
 
     StringManipulator::deleteSymbols(temp);
 
-    temp = "cache\\" + temp + ".txt";
+    system("if not exist cache mkdir cache");
+
+    temp = "cache/" + temp + ".txt";
 
     if (_type == OpenType::ONWRITE) {
         cwriter_ = std::make_unique<CacheWriter>(temp);
@@ -17,8 +19,10 @@ Cacher::Cacher(const std::string &_filename,
 }
 
 bool Cacher::isCached(const std::string &_filename) noexcept {
-    std::string   temp{ "cache\\" + _filename + ".txt" };
-    std::ifstream fcheck { _filename };
+    std::string temp { _filename };
+    StringManipulator::deleteSymbols(temp);
+
+    std::ifstream fcheck { "cache/" + temp + ".txt" };
 
     return fcheck.is_open();
 }

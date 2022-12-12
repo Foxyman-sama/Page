@@ -48,7 +48,7 @@ void scraping(std::string       &_url,
 
     ParsedVector parsed { };
 
-    if (Cacher::isCached(_url)) {
+    if (!Cacher::isCached(_url)) {
         std::string answer { user::connect(_url) };
 
         user::prepare(answer);
