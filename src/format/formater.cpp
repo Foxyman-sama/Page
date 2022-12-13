@@ -1,20 +1,9 @@
 #include "formater.hpp"
 
 void Formater::format(ParsedVector &_parsed) noexcept {
-    size_t                   size { _parsed.size() };
-    std::vector<std::string> bsymbols {
-        "\\u002F", "\\/", "\\\\/", "\\"
-        // What kind symbols need delete
-    }; 
-    size_t                   bs_size { bsymbols.size() };
+    size_t size { _parsed.size() };
 
     for (size_t i { }; i < size; ++i) {
-        for (size_t j { }; j < bs_size; ++j) {
-            if (_parsed[i].url_.find(bsymbols[j])) {
-                StringManipulator::replace(_parsed[i].url_, bsymbols[j], "/");
-            }
-        }
-
         if (_parsed[i].url_.find("png/")) {
             StringManipulator::replace(_parsed[i].url_, "png/", "png");
         }

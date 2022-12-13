@@ -23,10 +23,12 @@ public:
         curl_easy_cleanup(p_curl_);
     }
 
-    const auto &getAnswer() const noexcept {
+    bool connect(const std::string &_url) noexcept;
+
+public:
+    operator std::string() const noexcept {
         return answer_;
     }
-    bool        connect(const std::string &_url) noexcept;
 };
 
 #endif 

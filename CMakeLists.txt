@@ -22,6 +22,7 @@ include_directories(
 )
 
 set(PROJECT_INCLUDE
+	"include/headers.hpp"
 	"include/test/test.hpp"
 	"include/connector/connector.hpp"
 	"include/parser/parser.hpp"

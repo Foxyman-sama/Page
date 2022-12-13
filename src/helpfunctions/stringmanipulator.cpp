@@ -17,7 +17,7 @@ void StringManipulator::deleteRangeMatches(std::string       &_str,
                                            const std::string &_end) noexcept {
     while (true) {
         size_t start_pos { _str.find(_begin) };
-        size_t end_pos { _str.find(_end) };
+        size_t end_pos { _str.find(_end, start_pos) };
 
         if ((start_pos == std::string::npos) ||
             (end_pos == std::string::npos)) {
