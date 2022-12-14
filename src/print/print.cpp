@@ -3,30 +3,27 @@
 double Print::total_time_ { };
 size_t Print::new_pos_ { };
 
-Print::Print(const ParsedVector &_parsed) noexcept {
+Print::Print(const ParsedVector &_parsed) noexcept :
+    parsed_ { _parsed } {
     system("cls");
-
-    size_t size { _parsed.size() };
-
     start_ = std::chrono::steady_clock::now();
-
-    for (size_t i { new_pos_ }; i < size; ++i) {
-        std::cout << ' ' << _parsed[i].url_ << '\n';
-    }
-
-    ++new_pos_;
 }
-
 Print::~Print() noexcept {
     end_ = std::chrono::steady_clock::now();
 
     double seconds { std::chrono::duration<double, std::milli>(end_ - start_).count() / 1000 };
 
     std::cout.width(25);
-    std::cout << "Time elapsed: " << seconds << " seconds.\n";
+    std::cout << "Total time elapsed: " << seconds << " seconds.\n";
+}
 
-    total_time_ += seconds;
+void Print::print() noexcept {
+    system("cls");
 
-    std::cout.width(25);
-    std::cout << "Total time elapsed: " << total_time_ << " seconds.\n";
+    for (size_t i { new_pos_ }; i < parsed_.size(); ++i) {
+        std::cout.width(5);
+        std::cout << i << ' ' << parsed_[i].url_ << '\n';
+    }
+
+    ++new_pos_;
 }

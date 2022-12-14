@@ -1,4 +1,4 @@
-#define TESTMODE1
+#define TESTMODE
 
 #ifndef TESTMODE
 
@@ -8,7 +8,7 @@ int main(int   _argc,
          char *_p_argv[]) {
     setlocale(0, "");   
     
-    user::start(_argc, _p_argv);
+    scrap::start();
 
     system("pause");
 }
@@ -22,12 +22,7 @@ int main(int   _argc,
 int main() {
     setlocale(0, ".UTF8");
 
-    testConfiguration();
-    test1();
-    test2();
-    test3();
-    test4();
-    test5();
+    test();
 
     system("pause");
 }

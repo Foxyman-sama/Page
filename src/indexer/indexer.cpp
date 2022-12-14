@@ -3,7 +3,7 @@
 Indexer::Indexer(const std::string &_name, 
                  size_t             _size) noexcept { 
     fout_.open(_name, std::ios_base::binary);
-    fout_ << "Размер: " << _size << '\n';                 
+    fout_ << _size << '\n';                 
 }
 
 bool Indexer::write(const ParsedVector &_parsed) noexcept {

@@ -1,6 +1,6 @@
 #include "userfunctions.hpp"
 
-namespace user {
+namespace scrap {
     std::string  connect(const std::string &_url) {
         Connector connector { };
 
@@ -50,46 +50,26 @@ namespace user {
         return true;
     }
 
-    void start(int   _argc, 
-               char *_p_argv[]) noexcept {
+    void start() noexcept {
         std::string url { };
-        std::string formats { };
 
-        if (_argc == 3) {
-            url     = _p_argv[1];
-            formats = _p_argv[2];
-        }
-        else if (_argc == 2) {
-            url     = _p_argv[1];
-            formats = IMAGE_FORMATS;
-        }
-        else {
-            std::cout << "¬ведите сайт:    ";
-            std::getline(std::cin, url);
+        std::cout << "¬ведите сайт: ";
+        std::getline(std::cin, url);
 
-            std::cout << "¬ведите форматы: ";
-            std::getline(std::cin, formats);
-
-            if ((formats.empty()) || (formats == "image")) {
-                formats = IMAGE_FORMATS;
-            }
-        }
-
-        scraping(url, formats);
+        scraping(url);
     }
-    void scraping(std::string       &_url,
-                  const std::string &_formats) noexcept {
+    void scraping(std::string &_url) noexcept {
         system("if not exist download mkdir download");
         system("cls");
 
         ParsedVector parsed { };
 
         if (!Cacher::isCached(_url)) {
-            std::string answer { user::connect(_url) };
+            std::string answer { scrap::connect(_url) };
 
-            user::prepare(answer);
+            scrap::prepare(answer);
 
-            parsed = user::parse(answer, _formats);
+            parsed = scrap::parse(answer, FORMATS.data());
 
             Cacher cacher { _url, Cacher::OpenType::ONWRITE };
             cacher.write(parsed);
@@ -99,16 +79,17 @@ namespace user {
             cacher.read(parsed);
         }
 
-        user::format(parsed);
-        user::download(parsed);
+        scrap::format(parsed);
+        scrap::download(parsed);
     }
     void download(ParsedVector &_parsed) noexcept {
         Downloader downloader { };
+        Print      printer { _parsed };
         Indexer    indexer { "download/index.txt", _parsed.size() };
         indexer.write(_parsed);
 
         for (auto &&el : _parsed) {
-            Print print { _parsed };
+            printer.print();
 
             if (!downloader.download(el)) {
 #ifdef NDEBUG
