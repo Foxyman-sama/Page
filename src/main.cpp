@@ -12,7 +12,7 @@ int main(int   _argc,
         scrap::start();
     }
     catch (const std::exception &e) {
-        e.what();
+        std::cerr << e.what();
     }
 
     system("pause");

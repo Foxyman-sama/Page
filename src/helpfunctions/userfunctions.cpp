@@ -4,11 +4,9 @@ namespace scrap {
     std::string  connect(const std::string &_url) {
         Connector connector { };
 
-#ifdef NDEBUG
-        connector.connect(_url);
-#else
-        assert(connector.connect(_url) == true);
-#endif
+        if(!connector.connect(_url)) {
+            Throw(ErrorCatcher::Status::CONNECTION_ERROR);
+        }
 
         return connector;
     }
@@ -24,30 +22,6 @@ namespace scrap {
 #endif
 
         return parser.getParsed();
-    }
-    bool         tryDownload(Downloader         &_downloader,
-                             const ParsedResult &_parsed) {
-        size_t try_count { };
-
-        while (try_count != MAX_TRY_COUNT) {
-            system("cls");
-
-            std::cout << "Try to download: " << _parsed.url_ << '\n';
-
-            std::this_thread::sleep_for(std::chrono::milliseconds(1000));
-
-            if (_downloader.download(_parsed)) {
-                break;
-            }
-            else if (++try_count == 5) {
-                std::cout << "Can`t download " << _parsed.url_ << '\n';
-                std::cout << "Try later.\n\n";
-
-                return false;
-            }
-        } 
-
-        return true;
     }
 
     void start() noexcept {
@@ -85,7 +59,7 @@ namespace scrap {
             scrap::download(parsed);
         }
     }
-    void download(ParsedVector &_parsed) noexcept {
+    void download(ParsedVector &_parsed) {
         Downloader downloader { };
         Print      printer { _parsed.size() };
         Indexer    indexer { "download/index.txt", _parsed.size() };
@@ -93,7 +67,7 @@ namespace scrap {
 
         for (auto &&el : _parsed) {
             if (!downloader.download(el)) {
-                Throw(ErrorCatcher::Status::CACHE_ERROR);
+                Throw(ErrorCatcher::Status::DOWNLOAD_ERROR);
             }
 
             printer.print();

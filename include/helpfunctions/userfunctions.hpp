@@ -15,14 +15,12 @@ namespace scrap {
     std::string  connect(const std::string &_url);
     ParsedVector parse(const std::string &_answer,
                        const std::string &_formats = FORMATS.data());
-    bool tryDownload(Downloader         &_downloader,
-                     const ParsedResult &_parsed);
 
     void start() noexcept;
     void scraping(std::string       &_url) noexcept;
     void prepare(std::string &_answer) noexcept;
     void format(ParsedVector &_parsed) noexcept;
-    void download(ParsedVector &_parsed) noexcept;
+    void download(ParsedVector &_parsed);
 }
 
 #endif 
