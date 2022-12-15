@@ -19,6 +19,7 @@ include_directories(
 	"include/print"
 	"include/saver"
 	"include/test"
+	"include/error"
 )
 
 set(PROJECT_INCLUDE
@@ -42,6 +43,7 @@ set(PROJECT_INCLUDE
 	"include/io/iinput.hpp"
 	"include/cache/cachereader.hpp"
 	"include/cache/cachewriter.hpp"
+	"include/error/errorcatcher.hpp"
 )
 set(PROJECT_SOURCE
 	"src/test/test.cpp" 
@@ -63,6 +65,8 @@ set(PROJECT_SOURCE
 	"src/io/iinput.cpp"
 	"src/cache/cachereader.cpp"
 	"src/cache/cachewriter.cpp"
+	"src/cache/cachewriter.cpp"
+	"src/error/errorcatcher.cpp"
 )
 
 add_executable(PageScraper  

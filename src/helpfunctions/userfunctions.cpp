@@ -80,24 +80,23 @@ namespace scrap {
         }
 
         scrap::format(parsed);
-        scrap::download(parsed);
+
+        if (parsed.size()) {
+            scrap::download(parsed);
+        }
     }
     void download(ParsedVector &_parsed) noexcept {
         Downloader downloader { };
-        Print      printer { _parsed };
+        Print      printer { _parsed.size() };
         Indexer    indexer { "download/index.txt", _parsed.size() };
         indexer.write(_parsed);
 
         for (auto &&el : _parsed) {
-            printer.print();
-
             if (!downloader.download(el)) {
-#ifdef NDEBUG
-                tryDownload(downloader, el);
-#else
-                assert(tryDownload(downloader, el) == true);
-#endif
+                Throw(ErrorCatcher::Status::CACHE_ERROR);
             }
+
+            printer.print();
         }
     }
     void prepare(std::string &_answer) noexcept {
@@ -107,7 +106,6 @@ namespace scrap {
         Formater::format(_parsed);
 
         Checker checker { "download" };
-
         checker.read(_parsed);
     }
 }

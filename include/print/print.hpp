@@ -7,16 +7,21 @@
 
 class Print {
 private:
-    static double total_time_;
-    static size_t new_pos_;
+    using TimePoint = std::chrono::steady_clock::time_point;
 
 private:
-    std::chrono::steady_clock::time_point  start_;
-    std::chrono::steady_clock::time_point  end_;
-    const ParsedVector                    &parsed_;
+    double    total_time_;
+    size_t    new_pos_;
+    TimePoint start_;
+    TimePoint end_;
+    size_t    counter_;
+    size_t    divider_;
+
+private:
+    void update() noexcept;
 
 public:
-    explicit Print(const ParsedVector &_parsed) noexcept;
+     Print(size_t _size) noexcept;
     ~Print() noexcept;
 
     void print() noexcept;

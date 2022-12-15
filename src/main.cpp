@@ -1,4 +1,4 @@
-#define TESTMODE
+#define TESTMODE1
 
 #ifndef TESTMODE
 
@@ -8,7 +8,12 @@ int main(int   _argc,
          char *_p_argv[]) {
     setlocale(0, "");   
     
-    scrap::start();
+    try {
+        scrap::start();
+    }
+    catch (const std::exception &e) {
+        e.what();
+    }
 
     system("pause");
 }

@@ -10,6 +10,7 @@
 #include "indexer.hpp"
 #include "cacher.hpp"
 #include "prep.hpp"
+#include "errorcatcher.hpp"
 
 
 #endif 

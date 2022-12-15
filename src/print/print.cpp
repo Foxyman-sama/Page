@@ -1,12 +1,27 @@
 #include "print.hpp"
 
-double Print::total_time_ { };
-size_t Print::new_pos_ { };
-
-Print::Print(const ParsedVector &_parsed) noexcept :
-    parsed_ { _parsed } {
+Print::Print(size_t _size) noexcept {
     system("cls");
-    start_ = std::chrono::steady_clock::now();
+
+    total_time_ = 0.;
+    new_pos_    = 0;
+    start_      = std::chrono::steady_clock::now();
+    counter_    = 0;
+
+    if (_size < 10) {
+        divider_ = 10 / _size;
+    } 
+    else {
+        divider_ = std::floor((static_cast<double>(_size) * 10) / 100);
+    }
+
+    std::cout << '[';
+
+    for (size_t i { }; i < 10; ++i) {
+        std::cout << '*';
+    }
+
+    std::cout << ']';
 }
 Print::~Print() noexcept {
     end_ = std::chrono::steady_clock::now();
@@ -17,13 +32,26 @@ Print::~Print() noexcept {
     std::cout << "Total time elapsed: " << seconds << " seconds.\n";
 }
 
-void Print::print() noexcept {
+void Print::update() noexcept {
     system("cls");
 
-    for (size_t i { new_pos_ }; i < parsed_.size(); ++i) {
-        std::cout.width(5);
-        std::cout << i << ' ' << parsed_[i].url_ << '\n';
+    std::cout << '[';
+
+    for (size_t i { }; i < new_pos_; ++i) {
+        std::cout << '#';
+    }
+    for (size_t i { new_pos_ }; i < 10; ++i) {
+        std::cout << '*';
     }
 
-    ++new_pos_;
+    std::cout << ']';
+}
+
+void Print::print() noexcept {
+    if (!(++counter_ % divider_) &&
+        (new_pos_ != 10)) {
+        ++new_pos_;
+
+        update();
+    }
 }

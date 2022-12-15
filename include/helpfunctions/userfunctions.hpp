@@ -7,8 +7,9 @@
 
 #include "headers.hpp"
 
+
 namespace scrap {
-    constexpr std::string_view FORMATS { ".png|.jpg|-rj|-mo|.ico" };
+    constexpr std::string_view FORMATS { ".png|.jpg|-rj|-mo|.ico|8fd12b" };
     constexpr size_t           MAX_TRY_COUNT { 10 };
 
     std::string  connect(const std::string &_url);
