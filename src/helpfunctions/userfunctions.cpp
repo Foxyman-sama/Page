@@ -14,25 +14,22 @@ namespace scrap {
                        const std::string &_formats) {
         Parser parser { std::regex { "(\\W|^)((?:https?|//){1}[^\"]{10,300}(?:" + _formats
                                                                                 + "))(\\W|$)" } };
-       
-#ifdef NDEBUG
-        parser.parse(_answer);
-#else
-        assert(parser.parse(_answer) == true);
-#endif
+        
+        if (!parser.parse(_answer)) {
+            Throw(ErrorCatcher::Status::PARSE_ERROR)
+        }
 
         return parser.getParsed();
     }
 
-    void start() noexcept {
+    void start() {
         std::string url { };
-
         std::cout << "¬ведите сайт: ";
         std::getline(std::cin, url);
 
         scraping(url);
     }
-    void scraping(std::string &_url) noexcept {
+    void scraping(std::string &_url) {
         system("if not exist download mkdir download");
         system("cls");
 
@@ -63,7 +60,10 @@ namespace scrap {
         Downloader downloader { };
         Print      printer { _parsed.size() };
         Indexer    indexer { "download/index.txt", _parsed.size() };
-        indexer.write(_parsed);
+
+        if (!indexer.write(_parsed)) {
+            Throw(ErrorCatcher::Status::INDEXER_ERROR);
+        }      
 
         for (auto &&el : _parsed) {
             if (!downloader.download(el)) {
@@ -76,7 +76,7 @@ namespace scrap {
     void prepare(std::string &_answer) noexcept {
         Prep::prepareAnswer(_answer);
     }
-    void format(ParsedVector &_parsed) noexcept {
+    void format(ParsedVector &_parsed) {
         Formater::format(_parsed);
 
         Checker checker { "download" };
