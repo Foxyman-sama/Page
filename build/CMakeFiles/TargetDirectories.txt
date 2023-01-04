@@ -1,2 +1,0 @@
-E:/Projects/Visual Studio/PageScraper/build/CMakeFiles/ALL_BUILD.dir
-E:/Projects/Visual Studio/PageScraper/build/CMakeFiles/ZERO_CHECK.dir
