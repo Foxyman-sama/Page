@@ -19,38 +19,38 @@ if (USE_RECEIVER)
 	list(APPEND EXTRA_INCLUDES 
 		"src/htmlreceiver.cpp"
 		"src/receiver.cpp")
-endif()
+endif ()
 if (USE_FORMATER) 
 	list(APPEND EXTRA_INCLUDES 
 		"src/htmlformater.cpp"
 		"src/formater.cpp")
-endif()
+endif ()
 if (USE_EXTRACTOR) 
 	list(APPEND EXTRA_INCLUDES 
 		"src/htmlextractor.cpp"
 		"src/extractor.cpp")
-endif()
+endif ()
 if (USE_CACHER) 
 	list(APPEND EXTRA_INCLUDES 
-		"src/xmlcacher.cpp"
+		"src/xmlcacher.cpp"  
 		"src/cacher.cpp")
-endif()
+endif ()
 if (USE_FILTERER) 
 	list(APPEND EXTRA_INCLUDES 
 		"src/vectorfilterer.cpp"
 		"src/xmlfilterer.cpp"
 		"src/filterer.cpp")
-endif()
+endif ()
 
 if (DYNAMIC_LIB)
 	add_library(${PROJECT_NAME} SHARED 
 		"src/scrapexception.cpp"
 		${EXTRA_INCLUDES})
-else()
+else ()
 	add_library(${PROJECT_NAME} STATIC 
 		"src/scrapexception.cpp"
 		${EXTRA_INCLUDES})
-endif()
+endif ()
 
 target_include_directories(${PROJECT_NAME} PUBLIC
 	"include"
@@ -60,6 +60,10 @@ target_include_directories(${PROJECT_NAME} INTERFACE
 target_link_libraries(${PROJECT_NAME} PUBLIC
 	${CURL_LIBRARIES}
 	tinyxml2::tinyxml2)
+
+set_target_properties(Scrap PROPERTIES
+	LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}"
+	RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}")
 
 # Testing
 if (TEST_ENABLE) 
