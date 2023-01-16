@@ -39,6 +39,9 @@ MainWindow::MainWindow(QWidget *_p_parent) noexcept
 
 void MainWindow::processing() {
     try {
+        p_fresult_->clear();
+
+        auto                           start_time { std::chrono::steady_clock::now() };
         std::shared_ptr<IBaseReceiver> p_htmlreceiver { new HTMLReceiver { } };
         Receiver                       receiver { p_htmlreceiver };
         auto                           p_str {
@@ -90,8 +93,8 @@ void MainWindow::processing() {
         };
         size_t                         step { filtered.size() / count_of_thread };
         if (step > 0) {
-            size_t                         iter { step };
-            size_t                         last { };
+            size_t iter { step };
+            size_t last { };
             for (size_t i { }; i < count_of_thread; ++i) {
                 if (i != count_of_thread - 1) {
                     std::vector<std::string> temp { filtered.begin() + last, filtered.begin() + iter };
@@ -112,6 +115,19 @@ void MainWindow::processing() {
         else {
             fn(filtered);
         }
+
+        auto        end_time { std::chrono::steady_clock::now() };
+        float       delta {
+            std::chrono::duration<float, std::milli>(end_time - start_time).count() / 1000
+        };
+        std::string time_elapsed {
+            "Прошедшее время:      " + std::to_string(delta) + " секунд"
+        };
+        std::string count_of_downloads {
+            "Загруженных файлов: " + std::to_string(filtered.size())
+        };
+        p_fresult_->append(time_elapsed.c_str());
+        p_fresult_->append(count_of_downloads.c_str());
     }
     catch (const std::exception &e) {
         qDebug() << e.what() << '\n';

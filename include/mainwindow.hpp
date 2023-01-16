@@ -1,22 +1,7 @@
 #ifndef MAINWINDOW_HPP
 #define MAINWINDOW_HPP
 
-#include <QMainWindow>
-#include <QLabel>
-#include <QTextEdit>
-#include <QFormLayout>
-#include <QGridLayout>
-#include <QPushButton>
-#include "receiver.hpp"
-#include "formater.hpp"
-#include "extractor.hpp"
-#include "filterer.hpp"
-#include "downloader.hpp"
-#include "htmlreceiver.hpp"
-#include "htmlformater.hpp"
-#include "htmlextractor.hpp"
-#include "vectorfilterer.hpp"
-#include "mediadownloader.hpp"
+#include "libs.hpp"
 
 class MainWindow : public QMainWindow {
     Q_OBJECT

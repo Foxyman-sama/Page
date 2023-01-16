@@ -12,12 +12,15 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Widgets)
 find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets)
 
+set(PROJECT_HEADERS
+    include/mainwindow.hpp
+    include/libs.hpp)
 set(PROJECT_SOURCES
     src/main.cpp
-    src/mainwindow.cpp
-    include/mainwindow.hpp)
+    src/mainwindow.cpp)
 
 add_executable(Page
+    ${PROJECT_HEADERS}
     ${PROJECT_SOURCES})
 
 target_include_directories(Page PRIVATE
