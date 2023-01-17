@@ -9,7 +9,6 @@
 #include <QPushButton>
 #include <chrono>
 #include "handler.hpp"
-#include "menubar.hpp"
 
 class MainWindow : public QMainWindow {
     Q_OBJECT
@@ -26,7 +25,6 @@ private:
     QTextEdit   *p_fdirectory_ { };
     QTextEdit   *p_favgformat_ { };
     QTextEdit   *p_fresult_ { };
-    MenuBar     *p_menubar_ { };
 
 public:
     explicit MainWindow(QWidget *_p_parent = nullptr) noexcept;

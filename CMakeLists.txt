@@ -14,13 +14,11 @@ find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets)
 
 set(PROJECT_HEADERS
     include/mainwindow.hpp
-    include/handler.hpp
-    include/menubar.hpp)
+    include/handler.hpp)
 set(PROJECT_SOURCES
     src/main.cpp
     src/mainwindow.cpp
-    src/handler.cpp
-    src/menubar.cpp)
+    src/handler.cpp)
 
 add_executable(Page
     ${PROJECT_HEADERS}

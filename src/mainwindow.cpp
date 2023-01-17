@@ -7,7 +7,6 @@ MainWindow::MainWindow(QWidget *_p_parent) noexcept
     p_mainlayout_ = new QGridLayout { };
     p_formlayout_ = new QFormLayout { };
     p_acceptbut_  = new QPushButton { "Обработать" };
-    p_menubar_    = new MenuBar { };
 
     auto initTextEdit { [](QTextEdit **_p_textedit) {
         *_p_textedit     = new QTextEdit { };
@@ -35,7 +34,6 @@ MainWindow::MainWindow(QWidget *_p_parent) noexcept
     p_mainlayout_->addLayout(p_formlayout_, 0, 0);
     p_mainwidget_->setLayout(p_mainlayout_);
     setCentralWidget(p_mainwidget_);
-    setMenuBar(p_menubar_);
     connect(p_acceptbut_, &QPushButton::clicked, this, &MainWindow::processing);
 }
 
